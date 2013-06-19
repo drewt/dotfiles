@@ -1,6 +1,6 @@
-set expandtab
-set shiftwidth=4
-set softtabstop=4
+"set expandtab
+"set shiftwidth=4
+"set softtabstop=4
 set autoindent
 set smarttab
 set number
@@ -14,7 +14,7 @@ set guioptions-=L
 
 filetype plugin indent on
 syntax on
-colorscheme eclipse
+colorscheme greenery
 
 " concurrent make
 if filereadable('/proc/cpuinfo')

@@ -46,3 +46,4 @@ alias cmus-prev='cmus-remote -r'
 PS1='\[\e[1;32m\][\u@\h\[\e[1;34m\] \W\[\e[1;32m\]]\$\[\e[m\] '
 EDITOR=vim
 PATH=$PATH:/usr/local/cross/bin
+export LD_LIBRARY_PATH=/usr/local/lib/:/usr/lib/
