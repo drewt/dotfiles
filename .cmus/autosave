@@ -1,23 +1,23 @@
-set aaa_mode=artist
+set aaa_mode=all
 set altformat_current= %F 
 set altformat_playlist= %f%= %d 
 set altformat_title=%f
 set altformat_trackwin= %f%= %d 
 set auto_reshuffle=true
 set buffer_seconds=10
-set color_aux1=133
+set color_aux1=142
 set color_aux2=red
 set color_aux3=119
 set color_aux4=226
 set color_aux5=blue
 set color_aux6=140
 set color_aux7=81
-set color_aux8=gray
+set color_aux8=magenta
 set color_cmdline_attr=default
 set color_cmdline_bg=238
 set color_cmdline_fg=white
 set color_cur_sel_attr=default
-set color_error=210
+set color_error=lightred
 set color_info=lightgreen
 set color_separator=246
 set color_statusline_attr=default
@@ -46,37 +46,31 @@ set color_win_sel_fg=47
 set color_win_title_attr=default
 set color_win_title_bg=236
 set color_win_title_fg=81
-set confirm_run=true
+set confirm_run=false
 set continue=true
 set device=/dev/cdrom
 set display_artist_sort_name=false
 set dsp.alsa.device=default
-set dsp.ao.buffer_size=16384
-set dsp.ao.driver=
-set dsp.ao.wav_counter=1
-set dsp.ao.wav_dir=/home/drew
 set dsp.oss.device=
-set format_current= %a - %l -%3n. %t%= %{bitrate}Kbps %y 
-set format_playlist= %-25%a %#7%%3n. %#0%%t%= %#6%[%{label}] %#4%%y %#3%%d%#0% 
-set format_playlist_va= %-25%A %#7%%3n. %#0%%t (%a)%= %#6%[%{label}] %#4%%y %#3%%d%#0% 
+set format_current= %a - %l -%3n. %t %= %y
+set format_playlist= %#3%%-25%a %#7%%3n. %#0%%t%= %#6%%-12%{label} %#4%%-4y %#3%%d%#0% 
+set format_playlist_va= %#3%%-25%A %#7%%3n. %#0%%t %#7%(%a)%= %#6%%-12%{label} %#4%%-4y %#3%%d%#0% 
 set format_title=%a - %l - %t (%y)
-set format_trackwin=%#7%%3n. %#0%%t%= %#8%%#6%%{label}%#8% %#4%%y %#3%%d%#0% 
-set format_trackwin_va=%3n. %t (%a)%= %y %d 
+set format_trackwin=%#7%%3n. %#0%%t%= %#8%%#6%%{label}%#8% %#4%%-4y %#3%%d%#0% 
+set format_trackwin_va=%#7%%3n. %#0%%t %#7%(%a)%= %#8%%#6%%{label}%#8% %#4%%-4y %#3%%d%#0% 
 set icecast_default_charset=ISO-8859-1
 set id3_default_charset=ISO-8859-1
-set input.cdio.cddb_url=freedb.freedb.org:8880
 set lib_sort=albumartist date album discnumber tracknumber title filename
 set mixer.alsa.channel=PCM
 set mixer.alsa.device=default
 set mixer.oss.channel=PCM
 set mixer.oss.device=
-set mixer.pulse.restore_volume=1
 set output_plugin=alsa
 set passwd=
 set pl_sort=
 set play_library=true
 set play_sorted=true
-set repeat=true
+set repeat=false
 set repeat_current=false
 set replaygain=disabled
 set replaygain_limit=true
@@ -85,7 +79,7 @@ set resume=false
 set rewind_offset=5
 set scroll_offset=2
 set set_term_title=true
-set show_current_bitrate=false
+set show_current_bitrate=true
 set show_hidden=false
 set show_playback_position=true
 set show_remaining_time=false
@@ -101,8 +95,7 @@ bind browser i toggle show_hidden
 bind browser space win-activate
 bind browser u win-update
 bind common ! push shell 
-bind common ( scheme (adjust-colors! -1)
-bind common ) scheme (adjust-colors! 1)
+bind common ( push scheme (
 bind common + vol +10%
 bind common , seek -1m
 bind common - vol -10%
@@ -114,7 +107,10 @@ bind common 4 view queue
 bind common 5 view browser
 bind common 6 view filters
 bind common 7 view settings
+bind common < scheme (frob-color! (lambda (x) (- x 1)) selected-color)
 bind common = vol +10%
+bind common > scheme (frob-color! (lambda (x) (+ x 1)) selected-color)
+bind common B scheme (echo (number->string (selected-bitrate)))
 bind common C toggle continue
 bind common D win-remove
 bind common E win-add-Q
@@ -126,12 +122,18 @@ bind common M toggle play_library
 bind common N search-prev
 bind common P win-mv-before
 bind common U win-update-cache
+bind common Y scheme (echo (get-register #\y))
 bind common [ vol +1% +0
 bind common ] vol +0 +1%
 bind common ^B win-page-up
 bind common ^C echo Type :quit<enter> to exit cmus.
+bind common ^E-A scheme (echo (selected-album))
+bind common ^E-a scheme (echo (selected-artist))
+bind common ^E-t scheme (echo (selected-title))
 bind common ^F win-page-down
 bind common ^L refresh
+bind common ^M mark
+bind common ^N scheme (next-color)
 bind common ^R toggle repeat_current
 bind common a win-add-l
 bind common b player-next
@@ -166,7 +168,10 @@ bind common u update-cache
 bind common up win-up
 bind common v player-stop
 bind common x player-play
-bind common y win-add-p
+bind common y-A scheme (set-register! #\y (selected-album))
+bind common y-a scheme (set-register! #\y (selected-artist))
+bind common y-f scheme (set-register! #\y (selected-file))
+bind common y-t scheme (set-register! #\y (selected-title))
 bind common z player-prev
 bind common { vol -1% -0
 bind common } vol -0 -1%

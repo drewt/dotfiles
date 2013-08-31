@@ -2,11 +2,7 @@
 
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 
-xset +fp /usr/share/fonts/local
-xset fp rehash
-
-
-sh ~/.fehbg &
+xset +fp /usr/share/fonts/terminus/
 
 cmusstats(){
     if test "`pidof cmus`" != "" ; then
@@ -25,4 +21,12 @@ while true; do
     sleep 1s
 done &
 
-exec dwm
+case $1 in
+xfce4)
+	exec startxfce4
+	;;
+dwm|*)
+	sh ~/.fehbg &
+	exec dwm
+	;;
+esac

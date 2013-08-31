@@ -8,6 +8,7 @@ set ruler
 set title
 set mouse=a
 set laststatus=2
+set foldmethod=marker
 set guioptions-=T
 set guioptions-=r
 set guioptions-=L
@@ -22,7 +23,7 @@ if filereadable('/proc/cpuinfo')
 endif
 
 " SLIMV
-let g:slimv_swank_cmd = '! xfce4-terminal -x sbcl --load /usr/share/common-lisp/source/slime/start-swank.lisp &'
+let g:slimv_swank_cmd = '! urxvt -e sbcl --load /usr/share/common-lisp/source/slime/start-swank.lisp &'
 
 " Pathogen
 call pathogen#infect()

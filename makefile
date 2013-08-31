@@ -1,7 +1,7 @@
 
 .SUFFIXES:
 
-TARGETS = .xinitrc .Xresources .vimrc .gvimrc .bashrc dwm/config.h \
+TARGETS = .xinitrc .Xresources .vimrc .bashrc dwm/config.h \
 	  .cmus/autosave .cmus/rc .cmus/rc.scm
 
 all: $(TARGETS)

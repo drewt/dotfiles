@@ -1,13 +1,3 @@
-(import (only (scheme char) string-upcase))
-
-(define (string-suffix? str suf)
-  (let ((str-len (string-length str))
-        (suf-len (string-length suf)))
-    (if (<= str-len suf-len)
-      #f
-      (equal? (substring str (- str-len suf-len))
-              suf))))
-
 (define (string-last str chr)
   (define (string-last-iter i)
     (cond
@@ -40,22 +30,25 @@
                (string-length sel))))
 
 (define (id3? file)
-  (string-suffix? file ".mp3"))
+  (string-suffix? ".mp3" file))
 
 (define (ogg? file)
-  (string-suffix? file ".ogg"))
+  (string-suffix? ".ogg" file))
 
 (define (flac? file)
-  (string-suffix? file ".flac"))
+  (string-suffix? ".flac" file))
 
 (define (long-opt opt)
   (string-append "--" opt))
 
+;; set-tag : String String String -> Void
+;;   Sets the "tag" for the given file to "value" using the mid3v2 and metaflac
+;;   programs.  Currently this supports mp3 and FLAC files only.
 (define (set-tag track tag value)
 
   (define (handle-id3)
     (define (set-id3v2 opt)
-      (shell "id3v2" (long-opt opt) (shell-quote value) (shell-quote track)))
+      (shell "mid3v2" (long-opt opt) (shell-quote value) (shell-quote track)))
     (cond
       ((equal? tag "year") (set-id3v2 "TYER"))
       ((equal? tag "title") (set-id3v2 "song"))
@@ -68,6 +61,9 @@
              (string-append "--remove-tag=" (shell-quote uptag))
              (shell-quote track))
       (shell "metaflac"
+	     (string-append "--remove-tag=" (shell-quote (string-downcase uptag)))
+	     (shell-quote track))
+      (shell "metaflac"
              (shell-quote (string-append "--set-tag=" uptag "=" value))
              (shell-quote track)))
     (cond
@@ -77,10 +73,30 @@
   (cond
     ((id3? track) (handle-id3))
     ((ogg? track) (echo "TODO: ogg metadata"))
-    ((flac? track) (handle-flac))))
+    ((flac? track) (handle-flac))
+    (else (echo "I don't understand metadata for files of this type!"))))
 
 (define (tag-selected tag value)
   (set-tag (selected-file) tag value))
+
+(define (tag-all-selected tag value)
+  (for-each (lambda (x) (set-tag (track-info-filename x) tag value))
+	    (selected-tracks)))
+
+(define (set-selected-title)
+  (tag-selected "title" (input-prompt "Title: ")))
+
+(define (set-selected-artist)
+  (let ((value (input-prompt "Artist: ")))
+    (tag-all-selected "artist" value)))
+
+(define (set-selected-album)
+  (let ((value (input-prompt "Album: ")))
+    (tag-all-selected "album" value)))
+
+(define (set-selected-label)
+  (let ((value (input-prompt "Label: ")))
+    (tag-all-selected "label" value)))
 
 (define aux-colors '("color_aux1"
                      "color_aux2"
@@ -126,3 +142,13 @@
 
 (define (adjust-colors! val)
   (frob-colors! (lambda (x) (+ x val)) aux-colors))
+
+;;; callbacks
+
+(define (notify-cb)
+  (let ((cur (current-track)))
+    (shell "notify-send"
+	   (shell-quote
+	     (string-append (track-info-artist cur)
+			    " - "
+			    (track-info-title cur))))))
