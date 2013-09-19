@@ -1,14 +1,24 @@
 
 .SUFFIXES:
 
-TARGETS = .xinitrc .Xresources .vimrc .bashrc dwm/config.h \
-	  .cmus/autosave .cmus/rc .cmus/rc.scm
+bash = .bashrc
+cmus = .cmus/autosave .cmus/rc .cmus/rc.scm
+dwm = dwm/config.h
+vim = .vimrc \
+      .vim/colors/greenery.vim \
+      .vim/ftplugin/erlang.vim \
+      .vim/ftplugin/python.vim \
+      .vim/ftplugin/scheme.vim \
+      .vim/autoload/pathogen.vim
+x11 = .xinitrc .Xresources
 
-all: $(TARGETS)
+targets = $(bash) $(cmus) $(dwm) $(vim) $(x11)
 
-$(TARGETS): %: $(HOME)/%
+all: $(targets)
+
+$(targets): %: $(HOME)/%
 	mkdir -p ./$(dir $@)
 	cp $< $@
 
 clean:
-	rm -f $(TARGETS)
+	rm -f $(targets)

@@ -48,7 +48,7 @@
 
   (define (handle-id3)
     (define (set-id3v2 opt)
-      (shell "mid3v2" (long-opt opt) (shell-quote value) (shell-quote track)))
+      (shell-sync "mid3v2" (long-opt opt) (shell-quote value) (shell-quote track)))
     (cond
       ((equal? tag "year") (set-id3v2 "TYER"))
       ((equal? tag "title") (set-id3v2 "song"))
@@ -57,15 +57,15 @@
 
   (define (handle-flac)
     (define (set-metaflac uptag)
-      (shell "metaflac"
-             (string-append "--remove-tag=" (shell-quote uptag))
-             (shell-quote track))
-      (shell "metaflac"
-	     (string-append "--remove-tag=" (shell-quote (string-downcase uptag)))
-	     (shell-quote track))
-      (shell "metaflac"
-             (shell-quote (string-append "--set-tag=" uptag "=" value))
-             (shell-quote track)))
+      (shell-sync "metaflac"
+                  (string-append "--remove-tag=" (shell-quote uptag))
+                  (shell-quote track))
+      (shell-sync "metaflac"
+                  (string-append "--remove-tag=" (shell-quote (string-downcase uptag)))
+                  (shell-quote track))
+      (shell-sync "metaflac"
+                  (shell-quote (string-append "--set-tag=" uptag "=" value))
+                  (shell-quote track)))
     (cond
       ((equal? tag "year") (set-metaflac "DATE"))
       (else (set-metaflac (string-upcase tag)))))
@@ -74,29 +74,27 @@
     ((id3? track) (handle-id3))
     ((ogg? track) (echo "TODO: ogg metadata"))
     ((flac? track) (handle-flac))
-    (else (echo "I don't understand metadata for files of this type!"))))
+    (else (error-msg "set-tag: unsupported file type")))
+  (win-update-cache))
 
 (define (tag-selected tag value)
   (set-tag (selected-file) tag value))
 
 (define (tag-all-selected tag value)
   (for-each (lambda (x) (set-tag (track-info-filename x) tag value))
-	    (selected-tracks)))
+            (selected-tracks)))
 
 (define (set-selected-title)
-  (tag-selected "title" (input-prompt "Title: ")))
+  (call/ip (lambda (x) (tag-selected "title" x)) "Title:"))
 
 (define (set-selected-artist)
-  (let ((value (input-prompt "Artist: ")))
-    (tag-all-selected "artist" value)))
+  (call/ip (lambda (x) (tag-all-selected "artist" x)) "Artist:"))
 
 (define (set-selected-album)
-  (let ((value (input-prompt "Album: ")))
-    (tag-all-selected "album" value)))
+  (call/ip (lambda (x) (tag-all-selected "album" x)) "Album:"))
 
 (define (set-selected-label)
-  (let ((value (input-prompt "Label: ")))
-    (tag-all-selected "label" value)))
+  (call/ip (lambda (x) (tag-all-selected "label" x)) "Label:"))
 
 (define aux-colors '("color_aux1"
                      "color_aux2"
@@ -148,7 +146,7 @@
 (define (notify-cb)
   (let ((cur (current-track)))
     (shell "notify-send"
-	   (shell-quote
-	     (string-append (track-info-artist cur)
-			    " - "
-			    (track-info-title cur))))))
+           (shell-quote
+             (string-append (track-info-artist cur)
+                            " - "
+                            (track-info-title cur))))))

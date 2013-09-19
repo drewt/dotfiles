@@ -12,6 +12,7 @@ set foldmethod=marker
 set guioptions-=T
 set guioptions-=r
 set guioptions-=L
+set colorcolumn=80
 
 filetype plugin indent on
 syntax on

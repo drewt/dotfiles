@@ -25,6 +25,12 @@ case $1 in
 xfce4)
 	exec startxfce4
 	;;
+xmonad)
+	#sh ~/.fehbg &
+	xmobar &
+	xsetroot -cursor_name left_ptr
+	exec xmonad
+	;;
 dwm|*)
 	sh ~/.fehbg &
 	exec dwm

@@ -22,7 +22,7 @@ export GROFF_NO_SGR=1
 alias ls='ls --color=auto'
 alias cgrep='grep -r -n --color'
 alias make='make -j 6'
-alias exit = 'history -c; exit'
+alias exit='history -c; exit'
 
 PS1='\[\e[1;32m\][\u@\h\[\e[1;34m\] \W\[\e[1;32m\]]\$\[\e[m\] '
 EDITOR=vim
