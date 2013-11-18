@@ -23,8 +23,13 @@ alias ls='ls --color=auto'
 alias cgrep='grep -r -n --color'
 alias make='make -j 6'
 alias exit='history -c; exit'
+alias snes9x='snes9x -paddev1 "/dev/input/js0"'
+alias modefix='xrandr --output DVI-D-0 --mode 1920x1080 --output DVI-I-0 --mode 1600x900'
 
-PS1='\[\e[1;32m\][\u@\h\[\e[1;34m\] \W\[\e[1;32m\]]\$\[\e[m\] '
-EDITOR=vim
-PATH=$PATH:/usr/local/cross/bin:/usr/games/bin
-export LD_LIBRARY_PATH=/usr/local/lib/:/usr/lib/
+GREEN='\e[1;32m'
+BLUE='\e[1;34m'
+RESET='\e[m'
+
+PS1="$GREEN[\u@\h $BLUE\W$GREEN]\$ $RESET"
+
+set -o vi

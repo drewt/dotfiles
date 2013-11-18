@@ -1,0 +1,17 @@
+#
+# ~/.mpv/config
+#
+# Author: Drew Thoreson
+#
+
+# use high quality OpenGL and ALSA output plugins
+vo=opengl-hq
+ao=alsa
+
+# prefer Japanese audio
+alang=jp,jpn,
+
+# prefer Engligh subtitles
+slang=en,eng,
+
+ass-hinting=3

@@ -1,9 +1,12 @@
 
 .SUFFIXES:
 
-bash = .bashrc
-cmus = .cmus/autosave .cmus/rc .cmus/rc.scm
-dwm = dwm/config.h
+bash = .bashrc .bash_profile
+beets = .config/beets/config.yaml
+cmus = .config/cmus/autosave .config/cmus/rc .config/cmus/rc.scm
+dwm = dev/dwm/config.h
+gtk = .config/gtk-3.0/settings.ini .gtkrc-2.0
+mpv = .mpv/config
 vim = .vimrc \
       .vim/colors/greenery.vim \
       .vim/ftplugin/erlang.vim \
@@ -12,7 +15,7 @@ vim = .vimrc \
       .vim/autoload/pathogen.vim
 x11 = .xinitrc .Xresources
 
-targets = $(bash) $(cmus) $(dwm) $(vim) $(x11)
+targets = $(bash) $(beets) $(cmus) $(dwm) $(gtk) $(mpv) $(vim) $(x11)
 
 all: $(targets)
 

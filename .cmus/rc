@@ -1,4 +1,0 @@
-scheme (load "/home/drew/.cmus/rc.scm")
-
-add-callback hook_run_command echo (lambda (cmd . rest) (if (string=? cmd "shell") (echo "Executing:" (car rest))))
-#add-callback hook_file_changed notify notify-cb

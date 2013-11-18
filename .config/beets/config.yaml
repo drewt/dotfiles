@@ -1,0 +1,4 @@
+# Automatically migrated from legacy .beetsconfig.
+
+directory: ~/Music
+library: ~/.config/beets/beetslibrary.blb

@@ -56,6 +56,7 @@ set dsp.ao.driver=
 set dsp.ao.wav_counter=1
 set dsp.ao.wav_dir=/home/drew
 set dsp.oss.device=
+set follow=false
 set format_current= %a - %l -%3n. %t %= %y
 set format_playlist= %#3%%-25%a %#7%%3n. %#0%%t%= %#6%%-12%{label} %#4%%-4y %#3%%d%#0% 
 set format_playlist_va= %#3%%-25%A %#7%%3n. %#0%%t %#7%(%a)%= %#6%%-12%{label} %#4%%-4y %#3%%d%#0% 
@@ -131,6 +132,7 @@ bind common [ vol +1% +0
 bind common ] vol +0 +1%
 bind common ^B win-page-up
 bind common ^C echo Type :quit<enter> to exit cmus.
+bind common ^D win-move -50%
 bind common ^E-A scheme (echo (selected-album))
 bind common ^E-a scheme (echo (selected-artist))
 bind common ^E-t scheme (echo (selected-title))
@@ -140,6 +142,7 @@ bind common ^M mark
 bind common ^N scheme (next-color)
 bind common ^P shell scrot -s ~/Pictures/cmus.png
 bind common ^R toggle repeat_current
+bind common ^U win-move 50%
 bind common a win-add-l
 bind common b player-next
 bind common c player-pause

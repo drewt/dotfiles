@@ -6,8 +6,8 @@ xset +fp /usr/share/fonts/terminus/
 
 cmusstats(){
     if test "`pidof cmus`" != "" ; then
-        TIME="`cmus-remote -Q |awk '/duration/ {print $2}'`"
-        CURR="`cmus-remote -Q |awk '/position/ {print $2}'`"
+        TIME="`cmus-remote -Q | awk '/duration/ {print $2}'`"
+        CURR="`cmus-remote -Q | awk '/position/ {print $2}'`"
         CURRF=`printf "%02d:%02d" $(($CURR/60)) $(($CURR%60))`
         TIMEF=`printf "%02d:%02d" $(($TIME/60)) $(($TIME%60))`
         ARTIST="`cmus-remote -Q | sed -ne '/artist/s/tag artist //pg'`"
@@ -21,6 +21,7 @@ while true; do
     sleep 1s
 done &
 
+# multiplexing for SLiM
 case $1 in
 xfce4)
 	exec startxfce4
