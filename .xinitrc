@@ -4,22 +4,11 @@
 
 xset +fp /usr/share/fonts/terminus/
 
-cmusstats(){
-    if test "`pidof cmus`" != "" ; then
-        TIME="`cmus-remote -Q | awk '/duration/ {print $2}'`"
-        CURR="`cmus-remote -Q | awk '/position/ {print $2}'`"
-        CURRF=`printf "%02d:%02d" $(($CURR/60)) $(($CURR%60))`
-        TIMEF=`printf "%02d:%02d" $(($TIME/60)) $(($TIME%60))`
-        ARTIST="`cmus-remote -Q | sed -ne '/artist/s/tag artist //pg'`"
-        TITLE="`cmus-remote -Q | sed -ne '/title/s/tag title //pg'`"
-        echo `printf "%s - %s [ %s / %s ] |" "$TITLE" "$ARTIST" "$CURRF" "$TIMEF"`
-    fi
-}
+[ -f /etc/xprofile ] && source /etc/xprofile
+[ -f ~/.xprofile ] && source ~/.xprofile
 
-while true; do
-    xsetroot -name "$(cmusstats) $(date +'%A %B %d, %R')"
-    sleep 1s
-done &
+# map caps lock to escape
+(sleep 5s; xmodmap -e 'clear Lock' -e 'keycode 66 = Escape') &
 
 # multiplexing for SLiM
 case $1 in
@@ -32,8 +21,14 @@ xmonad)
 	xsetroot -cursor_name left_ptr
 	exec xmonad
 	;;
-dwm|*)
+dwm)
+	nvidia-settings -l
 	sh ~/.fehbg &
 	exec dwm
+	;;
+awesome|*)
+	nvidia-settings -l
+	wicd-gtk --tray &
+	exec awesome
 	;;
 esac

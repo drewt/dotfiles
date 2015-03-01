@@ -5,13 +5,13 @@
 #
 
 # use high quality OpenGL and ALSA output plugins
-vo=opengl-hq
+vo=opengl-hq:scale=ewa_lanczos
 ao=alsa
 
 # prefer Japanese audio
-alang=jp,jpn,
+alang=jp,jpn,Japanese,en,eng,English
 
 # prefer Engligh subtitles
-slang=en,eng,
+slang=en,eng,English,jp,jpn,Japanese
 
-ass-hinting=3
+screenshot-template=%f-%n

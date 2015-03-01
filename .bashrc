@@ -20,16 +20,20 @@ man ()
 export GROFF_NO_SGR=1
 
 alias ls='ls --color=auto'
-alias cgrep='grep -r -n --color'
+alias cgrep='grep -r -n --color -I'
 alias make='make -j 6'
 alias exit='history -c; exit'
 alias snes9x='snes9x -paddev1 "/dev/input/js0"'
 alias modefix='xrandr --output DVI-D-0 --mode 1920x1080 --output DVI-I-0 --mode 1600x900'
 
-GREEN='\e[1;32m'
-BLUE='\e[1;34m'
-RESET='\e[m'
+GREEN='\[\033[1;32m\]'
+BLUE='\[\033[1;34m\]'
+RESET='\[\033[00m\]'
 
 PS1="$GREEN[\u@\h $BLUE\W$GREEN]\$ $RESET"
 
 set -o vi
+shopt -s checkwinsize
+
+export SBCL_HOME='/usr/lib/sbcl'
+export BROWSER='firefox'

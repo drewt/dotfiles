@@ -5,8 +5,8 @@ static const char font[]            = "-*-terminus-medium-r-*-*-12-*-*-*-*-*-*-*
 static const char normbordercolor[] = "#444444";
 static const char normbgcolor[]     = "#37312c"; //"#222222";
 static const char normfgcolor[]     = "#bbbbbb";
-static const char selbordercolor[]  = "#6a694d"; //"#005577";
-static const char selbgcolor[]      = "#6a694d"; //"#005577";
+static const char selbordercolor[]  = "#537189"; //"#005577";
+static const char selbgcolor[]      = "#537189"; //"#005577";
 static const char selfgcolor[]      = "#eeeeee";
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -50,43 +50,44 @@ static const Layout layouts[] = {
 #define TERM_EXEC_OPT   "-e"
 #define TERM_EXEC(prog) { TERM_PROG, TERM_EXEC_OPT, prog, NULL }
 
-/* helper for using cmus-remote */
-#define CMUS_REMOTE(cmd) { "cmus-remote", cmd, NULL }
+#define MPC(cmd) { "mpc", cmd, NULL }
 
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *scrotcmd[] = { "scrot", "/home/drew/Pictures/Screenshot-%F-%T.png", NULL };
 
-/* cmus */
-static const char *cmuscmd[]  = TERM_EXEC("cmus");
-static const char *prevcmd[]  = CMUS_REMOTE("--prev");
-static const char *playcmd[]  = CMUS_REMOTE("--play");
-static const char *pausecmd[] = CMUS_REMOTE("--pause");
-static const char *stopcmd[]  = CMUS_REMOTE("--stop");
-static const char *nextcmd[]  = CMUS_REMOTE("--next");
-static const char *fwdcmd[]   = { "cmus-remote", "-k", "+60", NULL };
-static const char *backcmd[]  = { "cmus-remote", "-k", "-60", NULL };
+/* mpd */
+static const char *scmuscmd[] = TERM_EXEC("scmus");
+static const char *prevcmd[]  = MPC("prev");
+static const char *playcmd[]  = MPC("play");
+static const char *pausecmd[] = MPC("toggle");
+static const char *stopcmd[]  = MPC("stop");
+static const char *nextcmd[]  = MPC("next");
+static const char *fwdcmd[]   = { "mpc", "seek", "+60", NULL };
+static const char *backcmd[]  = { "mpc", "seek", "-60", NULL };
 
 /* other programs */
-static const char *termcmd[]  = { TERM_PROG, NULL };
-static const char *ffoxcmd[]  = { "firefox", NULL };
-static const char *wicdcmd[]  = TERM_EXEC("wicd-curses");
+static const char *termcmd[] = { TERM_PROG, NULL };
+static const char *wicdcmd[] = TERM_EXEC("wicd-curses");
+static const char *ffoxcmd[] = { "firefox", NULL };
+static const char *torrentcmd[] = { "transmission-gtk", NULL };
 
 static Key keys[] = {
         /* modifier                     key        function        argument */
         { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
         { MODKEY,                       XK_Print,  spawn,          {.v = scrotcmd } },
-        { MODKEY|ShiftMask,             XK_m,      spawn,          {.v = cmuscmd  } },
-        { MODKEY|ControlMask,           XK_z,      spawn,          {.v = prevcmd  } },
-        { MODKEY|ControlMask,           XK_x,      spawn,          {.v = playcmd  } },
+        { MODKEY|ShiftMask,             XK_m,      spawn,          {.v = scmuscmd } },
+        { MODKEY|ControlMask,           XK_z,      spawn,          {.v = prevcmd } },
+        { MODKEY|ControlMask,           XK_x,      spawn,          {.v = playcmd } },
         { MODKEY|ControlMask,           XK_c,      spawn,          {.v = pausecmd } },
-        { MODKEY|ControlMask,           XK_v,      spawn,          {.v = stopcmd  } },
-        { MODKEY|ControlMask,           XK_b,      spawn,          {.v = nextcmd  } },
-        { MODKEY|ControlMask,           XK_period, spawn,          {.v = fwdcmd   } },
-        { MODKEY|ControlMask,           XK_comma,  spawn,          {.v = backcmd  } },
-        { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd  } },
-        { MODKEY|ShiftMask,             XK_f,      spawn,          {.v = ffoxcmd  } },
-        { MODKEY|ShiftMask,             XK_n,      spawn,          {.v = wicdcmd  } },
+        { MODKEY|ControlMask,           XK_v,      spawn,          {.v = stopcmd } },
+        { MODKEY|ControlMask,           XK_b,      spawn,          {.v = nextcmd } },
+        { MODKEY|ControlMask,           XK_period, spawn,          {.v = fwdcmd  } },
+        { MODKEY|ControlMask,           XK_comma,  spawn,          {.v = backcmd } },
+        { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+        { MODKEY|ShiftMask,             XK_f,      spawn,          {.v = ffoxcmd } },
+        { MODKEY|ShiftMask,             XK_n,      spawn,          {.v = wicdcmd } },
+	{ MODKEY|ShiftMask,             XK_t,      spawn,          {.v = torrentcmd } },
 
         { MODKEY,                       XK_b,      togglebar,      {0} },
         { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },

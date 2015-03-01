@@ -3,6 +3,7 @@ set altformat_current= %F
 set altformat_playlist= %f%= %d 
 set altformat_title=%f
 set altformat_trackwin= %f%= %d 
+set auto_expand_albums=true
 set auto_reshuffle=true
 set buffer_seconds=10
 set color_aux1=142
@@ -58,11 +59,11 @@ set dsp.ao.wav_dir=/home/drew
 set dsp.oss.device=
 set follow=false
 set format_current= %a - %l -%3n. %t %= %y
-set format_playlist= %#3%%-25%a %#7%%3n. %#0%%t%= %#6%%-12%{label} %#4%%-4y %#3%%d%#0% 
-set format_playlist_va= %#3%%-25%A %#7%%3n. %#0%%t %#7%(%a)%= %#6%%-12%{label} %#4%%-4y %#3%%d%#0% 
+set format_playlist= %<3>%-25%a %<7>%3n. %<0>%t%= %<6>%-12%{label} %<4>%-4y %<3>%d%<0> 
+set format_playlist_va= %<3>%-25%A %<7>%3n. %<0>%t %<7>(%a)%= %<6>%-12%{label} %<4>%-4y %<3>%d%<0> 
 set format_title=%a - %l - %t (%y)
-set format_trackwin=%#7%%3n. %#0%%t%= %#8%%#6%%{label}%#8% %#4%%-4y %#3%%d%#0% 
-set format_trackwin_va=%#7%%3n. %#0%%t %#7%(%a)%= %#8%%#6%%{label}%#8% %#4%%-4y %#3%%d%#0% 
+set format_trackwin=%<7>%3n. %<0>%t%= %<8>%<6>%{label}%<8> %<4>%-4y %<3>%d%<0> 
+set format_trackwin_va=%<7>%3n. %<0>%t %<7>(%a)%= %<8>%<6>%{label}%<8> %<4>%-4y %<3>%d%<0> 
 set icecast_default_charset=ISO-8859-1
 set id3_default_charset=ISO-8859-1
 set lib_sort=albumartist date album discnumber tracknumber title filename
@@ -75,7 +76,7 @@ set passwd=
 set pl_sort=
 set play_library=true
 set play_sorted=true
-set repeat=false
+set repeat=true
 set repeat_current=false
 set replaygain=disabled
 set replaygain_limit=true
@@ -84,6 +85,7 @@ set resume=false
 set rewind_offset=5
 set scroll_offset=2
 set set_term_title=true
+set show_all_tracks=true
 set show_current_bitrate=true
 set show_hidden=false
 set show_playback_position=true
@@ -133,9 +135,9 @@ bind common ] vol +0 +1%
 bind common ^B win-page-up
 bind common ^C echo Type :quit<enter> to exit cmus.
 bind common ^D win-move -50%
-bind common ^E-A scheme (echo (selected-album))
-bind common ^E-a scheme (echo (selected-artist))
-bind common ^E-t scheme (echo (selected-title))
+bind common ^E.A scheme (echo (selected-album))
+bind common ^E.a scheme (echo (selected-artist))
+bind common ^E.t scheme (echo (selected-title))
 bind common ^F win-page-down
 bind common ^L refresh
 bind common ^M mark
@@ -176,10 +178,10 @@ bind common u win-update-cache
 bind common up win-up
 bind common v player-stop
 bind common x player-play
-bind common y-A scheme (set-register! #\y (selected-album))
-bind common y-a scheme (set-register! #\y (selected-artist))
-bind common y-f scheme (set-register! #\y (selected-file))
-bind common y-t scheme (set-register! #\y (selected-title))
+bind common y.A scheme (set-register! #\y (selected-album))
+bind common y.a scheme (set-register! #\y (selected-artist))
+bind common y.f scheme (set-register! #\y (selected-file))
+bind common y.t scheme (set-register! #\y (selected-title))
 bind common z player-prev
 bind common { vol -1% -0
 bind common } vol -0 -1%

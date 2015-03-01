@@ -42,8 +42,14 @@ set guioptions-=T
 set guioptions-=r
 set guioptions-=L
 
+map <F5> :make<CR>
+map <F6> :!urxvt -hold -e make run<CR>
+
 " custom colour scheme
 colorscheme greenery
+
+au BufRead,BufNewFile *.scss setfiletype scheme
+au BufRead,BufNewFile *.sxml setfiletype scheme
 
 " concurrent make
 if filereadable('/proc/cpuinfo')
@@ -51,7 +57,15 @@ if filereadable('/proc/cpuinfo')
 endif
 
 " SLIMV
-let g:slimv_swank_cmd = '! urxvt -e sbcl --load /usr/share/common-lisp/source/slime/start-swank.lisp &'
+"let g:slimv_swank_cmd = '! urxvt -e sbcl --load ~/.vim/slime/start-swank.lisp &'
+let g:slimv_swank_cmd = '! urxvt -e sbcl --load ~/.vim/slime/start-swank.lisp &'
+
+" Syntastic
+"let g:syntastic_c_compiler_options = ' -include kernel/common.h'
 
 " Pathogen
 call pathogen#infect()
+
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup

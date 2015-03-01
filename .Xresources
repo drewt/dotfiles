@@ -1,6 +1,8 @@
 URxvt.scrollBar: false
-URxvt.font: -*-terminus-medium-r-*-*-12-*-*-*-*-*-*-*
+URxvt.font: xft:Terminess Powerline:size=10
 URxvt.background: #111111
 URxvt.foreground: #CCCCCC
 URxvt.color10: #55FF55
 URxvt.color12: #5555FF
+
+Xcursor.size: 16
